@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// middleware to authenticate and authorize users based on JWT tokens
 const authMiddleware = async (req,res,next) => {
     let token = req.headers.authorization?.split("")[1];
     if(!token){
@@ -8,7 +9,7 @@ const authMiddleware = async (req,res,next) => {
     }
 
     try{
-        const decoded = jwt.verify(token,process.env.JWT_SECRET);
+        const decoded = jwt.verify(token,process.env.JWT_SECRET); //verify and decode the token
         req.user = await User.findById(decoded.id).select('-password');
         next();
     }catch(error){
