@@ -6,11 +6,7 @@ const generateToken = (id) => {
 };
 
 exports.register = async(req,res) => {
-    const {firstName , lastName , email , phoneNumber , password , confirmPassword} = req.body;
-
-    if(password !== confirmPassword){
-        return res.status(400).json({message:'Passwords do not match'});
-    }
+    const {firstName , lastName , email , phoneNumber , password} = req.body;
 
     const userExists = await User.findOne({email});
 
