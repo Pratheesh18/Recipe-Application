@@ -1,7 +1,9 @@
 import  {useEffect , useState} from 'react';
-import axios from 'axios';
-import {Box,Typography,Button} from '@mui/material';
+import {Box,Button} from '@mui/material';
 import MealCard from './MealCard';
+import api from '../api';
+import NavBar from './NavBar';
+
 
 const Home = () => {
     const [categories , setCategories] = useState([]);
@@ -9,25 +11,34 @@ const Home = () => {
     const [meals,setMeals] = useState([]);
 
     useEffect(() => {
-        axios.get('https://www.themealdb.com/api/json/v1/1/categories.php')
-             .then(response => setCategories(response.data.categories.slice(0,5)))
+        api.get('/recipes/categories')
+             .then(response => {
+                setCategories(response.data.categories);
+                if(response.data.categories.length > 0){
+                    setSelectedCategory(response.data.categories[0].strCategory);
+                }
+             })
              .catch(error => console.error('Error fetching categories',error));
     },[]);
 
     useEffect(() => {
         if(selectedCategory){
-            axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`)
-                .then(response => setMeals(response.data.meals))
+            api.get(`/recipes/meals/${selectedCategory}`)
+                .then(response => {
+                    console.log("Meals fetched",response.data);
+                    setMeals(response.data);
+                })
                 .catch(error => console.error('Error fetching meals',error));
         }
     },[selectedCategory]); //if category changes it will fetch the meals based on the category
 
     return(
+        <>
+        <NavBar />
         <Box sx={{p:3}}>
-            <Typography variant='h4' gutterBottom> Categories </Typography>
-            <Box sx={{display:'flex',gap:2,mb:4}}>
+            <Box sx={{display:'flex',gap:2,mb:4,justifyContent:'center' , flexWrap:'wrap'}}>
                 {categories.map(category => (
-                    <Button key={category.idCategory} variant={selectedCategory === category.strCategory ? 'contained' : 'outlined'} onClick={() => setSelectedCategory(category.strCategory)}>
+                    <Button type='button' key={category.idCategory} variant={selectedCategory === category.strCategory ? 'contained' : 'outlined'} onClick={() => setSelectedCategory(category.strCategory)}>
                         {category.strCategory}
                     </Button>
                 ))}
@@ -40,6 +51,7 @@ const Home = () => {
                 ))}
             </Box>
         </Box>
+        </>
     )
 };
 

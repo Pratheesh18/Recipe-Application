@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 // middleware to authenticate and authorize users based on JWT tokens
 const authMiddleware = async (req,res,next) => {
-    let token = req.headers.authorization?.split("")[1];
+    let token = req.headers.authorization?.split(" ")[1];
     if(!token){
         return res.status(401).json({message : 'Not authorized'});
     }

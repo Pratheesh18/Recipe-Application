@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import {useEffect , useState} from 'react';
 import {Dialog,DialogTitle,DialogContent,Typography,CircularProgress,Box} from '@mui/material';
 import axios from 'axios';
+import api from '../api';
 
 
 const MealDetailsPopup = ({open,close,mealId}) => {

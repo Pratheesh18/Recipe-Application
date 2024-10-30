@@ -10,7 +10,10 @@ dotenv.config();
 connectDatabase();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Update this to match your frontend URL
+    credentials: true,               // Allows cookies and credentials to be sent
+}));
 app.use(express.json());
 
 app.use('/api/auth',authRoutes);

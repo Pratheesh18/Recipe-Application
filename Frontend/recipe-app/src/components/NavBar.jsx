@@ -1,4 +1,4 @@
-import { AppBar,Toolbar,Typography,Button } from "@mui/material";
+import { AppBar,Toolbar,Box,Button } from "@mui/material";
 import { Link} from "react-router-dom";
 
 
@@ -9,15 +9,14 @@ const NavBar = () => {
     return(
        <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    <Link to="/home">Cook</Link>
-            </Typography>
+            <Box sx={{flexGrow:1,display:'flex',justifyContent:'center'}}>
             <Button color="inherit">
                     <Link to="/home">Home</Link>
             </Button>
             <Button color="inherit">
                     <Link to="/favorites">Favorites</Link>
             </Button>
+            </Box>
         </Toolbar>
        </AppBar>
     )
