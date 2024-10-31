@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography , CircularProgress } from "@mui/material";
 import MealCard from "./MealCard";
 import NavBar from "./NavBar";
 
 const FavoriteMeals = () => {
   const [favoriteMeals, setFavoriteMeals] = useState([]);
+  const [loading , setLoading] = useState(false);
 
   useEffect(() => {
     fetchFavorites();
   }, []);
 
   const fetchFavorites = async () => {
+    setLoading(true);
     try {
       const response = await api.get("/recipes/favorites", {
         withCredentials: true,
@@ -19,6 +21,8 @@ const FavoriteMeals = () => {
       setFavoriteMeals(response.data);
     } catch (error) {
       console.error("Error fetching favorite meals", error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -29,8 +33,12 @@ const FavoriteMeals = () => {
   return (
     <>
       <NavBar />
-      <Box sx={{ p: 3 }}>
-        {favoriteMeals.length > 0 ? (
+      <Box sx={{ p: 3, backgroundColor: "#EADFDB" , minHeight:'100vh' }}>
+        {loading ? (
+          <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',height:'50vh'}}>
+              <CircularProgress />
+          </Box>):
+          favoriteMeals.length > 0 ? (
           <Box
             sx={{
               display: "flex",

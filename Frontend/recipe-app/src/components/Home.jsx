@@ -1,5 +1,5 @@
 import  {useEffect , useState , useCallback} from 'react';
-import {Box,Button} from '@mui/material';
+import {Box,Button , CircularProgress, Typography} from '@mui/material';
 import MealCard from './MealCard';
 import api from '../api';
 import NavBar from './NavBar';
@@ -10,6 +10,7 @@ const Home = () => {
     const [selectedCategory , setSelectedCategory] = useState('');
     const [meals,setMeals] = useState([]);
     const [showMeals , setShowMeals] = useState(10);
+    const [loading,setLoading] = useState(false);
 
     useEffect(() => {
         api.get('/recipes/categories')
@@ -29,12 +30,15 @@ const Home = () => {
     }, [selectedCategory]);
 
     const fetchMealsByCategory = async (category) => {
+        setLoading(true);
         try {
             const response = await api.get(`/recipes/meals/${category}`);
             setMeals(response.data);
             setShowMeals(10); 
         } catch (error) {
             console.error("Error fetching meals", error);
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -52,21 +56,46 @@ const Home = () => {
     return(
         <>
         <NavBar />
-        <Box sx={{p:3}}>
+        <Box sx={{p:3 ,  backgroundColor: "#EADFDB" , minHeight:'100vh'}}>
             <Box sx={{display:'flex',gap:2,mb:4,justifyContent:'center' , flexWrap:'wrap'}}>
                 {categories.map(category => (
-                    <Button sx={{backgroundColor:'#E84B7D' , color:'white'}} type='button' key={category.idCategory} variant={selectedCategory === category.strCategory ? 'contained' : 'outlined'} onClick={() => setSelectedCategory(category.strCategory)}>
+                    <Button sx={{
+                        backgroundColor: selectedCategory === category.strCategory ? '#E84B7D' : 'transparent',
+                        color: selectedCategory === category.strCategory ? 'white' : '#E84B7D',
+                        borderColor: '#E84B7D',
+                        borderRadius: '20px',
+                        textTransform: 'capitalize',
+                        fontWeight: 'bold',
+                        '&:hover': {
+                            backgroundColor: selectedCategory === category.strCategory ? '#E84B7D' : 'rgba(232, 75, 125, 0.1)',
+                            borderColor: '#E84B7D',
+                        },
+                        padding: '6px 20px',
+                    }}
+                    type='button' 
+                    key={category.idCategory}
+                    variant = "outlined"
+                    onClick={() => setSelectedCategory(category.strCategory)}>
                         {category.strCategory}
                     </Button>
                 ))}
             </Box>
+            {loading ? (
+                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',height:'50vh'}}>
+                      <CircularProgress />
+                </Box>
+            ) : meals.length > 0 ? (
             <Box sx={{display:'flex',flexWrap:'wrap',gap:3,justifyContent:'center'}}>
                 {meals.slice(0,showMeals).map(meal => (
                     <Box key={meal.idMeal}>
                         <MealCard meal={meal} />
                     </Box>
                 ))}
-            </Box>
+            </Box> ) : (
+                <Typography variant='body1' sx={{mt:2,display:'flex',justifyContent:'center'}}>
+                    No meals available
+                </Typography>
+            )}
         </Box>
         </>
     )

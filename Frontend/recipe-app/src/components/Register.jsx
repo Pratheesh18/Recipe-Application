@@ -6,6 +6,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import api from "../api";
 import { Link } from 'react-router-dom';
 import {Visibility , VisibilityOff} from '@mui/icons-material';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const formValidation = Yup.object().shape({
     firstName : Yup.string().required('First Name is required'),
@@ -20,6 +22,7 @@ const Register = () => {
     const [showPassword,setShowPassword] = useState(false);
     const [showConfirmPassword , setShowConfirmPassword] = useState(false);
     const {register , handleSubmit , formState:{errors}} = useForm({resolver:yupResolver(formValidation)});
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try{
@@ -30,9 +33,11 @@ const Register = () => {
                 phoneNumber : data.phoneNumber,
                 password : data.password,
             });
-            console.log(res.data);
+            navigate('/');
+            toast.success('Registration Successful',{position:'bottom-right'});
         }catch(error){
             console.error('Registration error',error);
+            toast.error('Error in Registration',{position:'bottom-right'});
         }
     };
 
@@ -58,7 +63,7 @@ const Register = () => {
         <Paper elevation={3} sx={{p:{xs:2,sm:4},mt:3,borderRadius:2,boxShadow:'0 4px 10px rgba(0,0,0,0.1)',maxWidth:500,mx:'auto'}}>
             <Box sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                 <Typography variant="h5" component="h1" sx={{mb:2}}>
-                    Register
+                    REGISTER
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <Box

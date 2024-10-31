@@ -4,6 +4,8 @@ import Register from "./components/Register";
 import Home from './components/Home';
 import FavoriteMeals from './components/FavoriteMeals';
 import ProtectedRoute from './components/ProtectedRoute';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
@@ -28,6 +30,7 @@ const App = () => {
             />
         </Routes>
       </Router>
+      <ToastContainer hideProgressBar={true} autoClose={2000} position='bottom-right' />
     </>
   )
 };

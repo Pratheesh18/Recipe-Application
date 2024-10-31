@@ -11,7 +11,6 @@ const MealDetailsPopup = ({open,close,mealId}) => {
 
     useEffect(() => {
         if(mealId && open){
-            console.log("Meal",mealId)
             setLoading(true);
          
             api.get(`/recipes/meals/details/${mealId}`,{withCredentials:true})
@@ -43,7 +42,7 @@ const MealDetailsPopup = ({open,close,mealId}) => {
                                 Area : {mealDetails.strArea}
                             </Typography>
                             <Typography variant='body1' sx={{mt:1}}>
-                                {mealDetails.strInstructions}
+                                Instructions : {mealDetails.strInstructions}
                             </Typography>
                         </Box>
                     )

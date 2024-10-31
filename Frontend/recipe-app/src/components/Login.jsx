@@ -14,6 +14,7 @@ import {
 import { Visibility , VisibilityOff } from "@mui/icons-material";
 import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const loginFormValidation = Yup.object().shape({
   email: Yup.string()
@@ -38,10 +39,11 @@ const Login = () => {
         password: data.password,
       });
       localStorage.setItem("token", response.data.token);
+      toast.success('Login Successful',{position:'bottom-right'});
       navigate("/home");
-      console.log(response.data);
     } catch (error) {
       console.error("Login error", error.response?.data);
+      toast.error('Error ! Failed to Login',{position:'bottom-right'});
     }
   };
 
@@ -78,7 +80,7 @@ const Login = () => {
             }}
           >
             <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
-              Login
+              LOGIN
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <Box sx={{ mb: 2 }}>
