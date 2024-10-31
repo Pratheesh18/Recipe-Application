@@ -1,4 +1,4 @@
-import  {useEffect , useState} from 'react';
+import  {useEffect , useState , useCallback} from 'react';
 import {Box,Button} from '@mui/material';
 import MealCard from './MealCard';
 import api from '../api';
@@ -9,6 +9,7 @@ const Home = () => {
     const [categories , setCategories] = useState([]);
     const [selectedCategory , setSelectedCategory] = useState('');
     const [meals,setMeals] = useState([]);
+    const [showMeals , setShowMeals] = useState(10);
 
     useEffect(() => {
         api.get('/recipes/categories')
@@ -22,15 +23,31 @@ const Home = () => {
     },[]);
 
     useEffect(() => {
-        if(selectedCategory){
-            api.get(`/recipes/meals/${selectedCategory}`)
-                .then(response => {
-                    console.log("Meals fetched",response.data);
-                    setMeals(response.data);
-                })
-                .catch(error => console.error('Error fetching meals',error));
+        if (selectedCategory) {
+            fetchMealsByCategory(selectedCategory);
         }
-    },[selectedCategory]); //if category changes it will fetch the meals based on the category
+    }, [selectedCategory]);
+
+    const fetchMealsByCategory = async (category) => {
+        try {
+            const response = await api.get(`/recipes/meals/${category}`);
+            setMeals(response.data);
+            setShowMeals(10); 
+        } catch (error) {
+            console.error("Error fetching meals", error);
+        }
+    };
+
+    const handleScrollFunction = useCallback(() => {
+        if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight-50){
+            setShowMeals(prevShow => prevShow + 10)
+        }
+    },[]);
+
+    useEffect(() => { //used throttling to show the meals 
+        window.addEventListener('scroll',handleScrollFunction);
+        return () => window.removeEventListener('scroll',handleScrollFunction);
+    },[handleScrollFunction]);
 
     return(
         <>
@@ -44,7 +61,7 @@ const Home = () => {
                 ))}
             </Box>
             <Box sx={{display:'flex',flexWrap:'wrap',gap:3,justifyContent:'center'}}>
-                {meals.map(meal => (
+                {meals.slice(0,showMeals).map(meal => (
                     <Box key={meal.idMeal}>
                         <MealCard meal={meal} />
                     </Box>

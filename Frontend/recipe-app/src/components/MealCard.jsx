@@ -64,7 +64,7 @@ const MealCard = ({meal , onFetchFavorites , isFavoritePage=false}) => {
     return(
         <>
         <Card onClick={handleOpenPopup} sx={{cursor:'pointer',width:300,height:300,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center'}} >
-            <CardMedia component="img" height="150" image={meal.strMealThumb} alt={meal.strMeal} />
+            <CardMedia component="img" height="150" image={meal.strMealThumb} alt={meal.strMeal} loading="lazy" />
             <CardContent>
                 <Typography variant='h6'> {meal.strMeal} </Typography>
                 {isFavoritePage ? (
