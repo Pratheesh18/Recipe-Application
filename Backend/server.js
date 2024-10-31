@@ -11,7 +11,7 @@ connectDatabase();
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173', // Update this to match your frontend URL
+    origin: '*', // Update this to match your frontend URL
     credentials: true,               // Allows cookies and credentials to be sent
 }));
 app.use(express.json());
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/api/auth',authRoutes);
 app.use('/api/recipes',recipeRoutes);
 
-const PORT =  5000;
+const PORT =  process.env.PORT || 5000;
 app.listen(PORT , () => {
     console.log(`Server is running in port ${PORT}`);
 })
