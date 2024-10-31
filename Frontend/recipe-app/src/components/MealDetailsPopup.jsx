@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import {useEffect , useState} from 'react';
 import {Dialog,DialogTitle,DialogContent,Typography,CircularProgress,Box} from '@mui/material';
-import axios from 'axios';
 import api from '../api';
 
 
@@ -11,16 +10,18 @@ const MealDetailsPopup = ({open,close,mealId}) => {
     const [loading , setLoading] = useState(false);
 
     useEffect(() => {
-        if(mealId){
+        if(mealId && open){
+            console.log("Meal",mealId)
             setLoading(true);
-            axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
-                 .then(response => {setMealDetails(response.data.meals[0]); setLoading(false)})
+         
+            api.get(`/recipes/meals/details/${mealId}`,{withCredentials:true})
+                 .then(response => {setMealDetails(response.data); setLoading(false)})
                  .catch(error => {
                     console.error('Error fetching meal details',error);
                     setLoading(false);
                  })
         }
-    },[mealId]);
+    },[mealId , open]);
 
     return(
         <Dialog open={open} onClose={close} maxWidth="sm" fullWidth>

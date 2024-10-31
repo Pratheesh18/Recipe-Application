@@ -60,4 +60,18 @@ exports.getFavorites = async (req,res) => { //get users' favorite meals
     }catch(error){
         res.status(500).json({message : 'failed to fetch favorites'})
     }
+};
+
+exports.getMealDetails = async (req,res) => {
+    const {mealId} = req.params;
+    try{
+        const {data} = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`);
+        if(!data.meals || data.meals.length === 0){
+            return res.status(404).json({message:'Meal mot found'});
+        }
+        res.status(200).json(data.meals[0]);
+    }catch(error){
+        console.error('Error fetching meal details',error);
+        res.status(500).jsomn({message:'Failed to fetch meal details'});
+    }
 }

@@ -53,6 +53,7 @@ const MealCard = ({meal , onFetchFavorites , isFavoritePage=false}) => {
     }
 
     const handleOpenPopup = () => {
+        console.log("Opening popup with mealId:", meal.idMeal);
         setPopupOpen(true);
     };
 
