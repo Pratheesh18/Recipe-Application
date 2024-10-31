@@ -1,5 +1,5 @@
 import  {useEffect , useState , useCallback} from 'react';
-import {Box,Button , CircularProgress, Typography} from '@mui/material';
+import {Box,Button , CircularProgress} from '@mui/material';
 import MealCard from './MealCard';
 import api from '../api';
 import NavBar from './NavBar';
@@ -84,18 +84,14 @@ const Home = () => {
                 <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',height:'50vh'}}>
                       <CircularProgress />
                 </Box>
-            ) : meals.length > 0 ? (
+            ) : meals.length > 0 && (
             <Box sx={{display:'flex',flexWrap:'wrap',gap:3,justifyContent:'center'}}>
                 {meals.slice(0,showMeals).map(meal => (
                     <Box key={meal.idMeal}>
                         <MealCard meal={meal} />
                     </Box>
                 ))}
-            </Box> ) : (
-                <Typography variant='body1' sx={{mt:2,display:'flex',justifyContent:'center'}}>
-                    No meals available
-                </Typography>
-            )}
+            </Box> )}
         </Box>
         </>
     )

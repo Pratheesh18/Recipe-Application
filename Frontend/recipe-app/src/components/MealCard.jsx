@@ -38,14 +38,11 @@ const MealCard = ({meal , onFetchFavorites , isFavoritePage=false}) => {
                     title : meal.strMeal,
                     imageUrl : meal.strMealThumb,
                 },{withCredentials:true});
-
                     setFavorite(true); 
-                    toast.success('Meal added to favorites', { position: 'bottom-right' });
-                
+                    toast.success('Meal added to favorites', { position: 'bottom-right' });    
             }
         }catch(error){
             console.error('Error adding favorites',error);
-            // toast.error('Failed to add favorites',{position:'bottom-right'});
         }
     }
 
