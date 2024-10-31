@@ -3,7 +3,7 @@ import Login from './components/Login';
 import Register from "./components/Register";
 import Home from './components/Home';
 import FavoriteMeals from './components/FavoriteMeals';
-import NavBar from './components/NavBar';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App = () => {
@@ -14,8 +14,18 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/favorites' element={<FavoriteMeals />} />
+          <Route
+               path='/home'
+               element={<ProtectedRoute>
+                <Home />
+               </ProtectedRoute>} 
+          />
+           <Route
+                 path='/favorites'
+                 element={<ProtectedRoute>
+                  <FavoriteMeals />
+                 </ProtectedRoute>}
+            />
         </Routes>
       </Router>
     </>

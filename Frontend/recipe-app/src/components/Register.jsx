@@ -1,10 +1,11 @@
-import {TextField,Button,Typography,Box,Container, Paper} from '@mui/material';
+import { useState } from 'react';
+import {TextField,Button,Typography,Box,Container, Paper , IconButton} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import api from "../api";
 import { Link } from 'react-router-dom';
-
+import {Visibility , VisibilityOff} from '@mui/icons-material';
 
 const formValidation = Yup.object().shape({
     firstName : Yup.string().required('First Name is required'),
@@ -16,6 +17,8 @@ const formValidation = Yup.object().shape({
 });
 
 const Register = () => {
+    const [showPassword,setShowPassword] = useState(false);
+    const [showConfirmPassword , setShowConfirmPassword] = useState(false);
     const {register , handleSubmit , formState:{errors}} = useForm({resolver:yupResolver(formValidation)});
 
     const onSubmit = async (data) => {
@@ -31,7 +34,15 @@ const Register = () => {
         }catch(error){
             console.error('Registration error',error);
         }
-    } 
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleClickShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    }
 
     return(
         <Box
@@ -96,21 +107,41 @@ const Register = () => {
                             <Box sx={{ flex: '1 1 45%' }}>
                                 <TextField
                                     label="Password"
-                                    type="password"
+                                    type= {showPassword ? 'text' : 'password'}
                                     fullWidth
                                     {...register('password')}
                                     error={!!errors.password}
                                     helperText={errors.password?.message}
+                                    InputProps = {{
+                                        endAdornment:(
+                                            <IconButton
+                                                onClick={handleClickShowPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        )
+                                    }}
                                 />
                             </Box>
                             <Box sx={{ flex: '1 1 45%' }}>
                                 <TextField
                                     label="Confirm Password"
-                                    type="password"
+                                    type={showConfirmPassword ? 'text' : 'password'}
                                     fullWidth
                                     {...register('confirmPassword')}
                                     error={!!errors.confirmPassword}
                                     helperText={errors.confirmPassword?.message}
+                                    InputProps = {{
+                                        endAdornment:(
+                                            <IconButton
+                                                       onClick={handleClickShowConfirmPassword}
+                                                       edge="end"
+                                            >
+                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        )
+                                    }}
                                 />
                             </Box>
                         </Box>
@@ -119,7 +150,7 @@ const Register = () => {
                         </Button>
                     </form>
                     <Typography variant="body2" color="textSecondary" sx={{mt:2}}>
-                        Already have an account ? <Link to="/"> Login </Link>
+                        Already have an account ? <Link style={{textDecoration:'none'}} to="/"> Login </Link>
                     </Typography>
             </Box>
         </Paper>

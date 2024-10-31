@@ -55,7 +55,7 @@ const Home = () => {
         <Box sx={{p:3}}>
             <Box sx={{display:'flex',gap:2,mb:4,justifyContent:'center' , flexWrap:'wrap'}}>
                 {categories.map(category => (
-                    <Button type='button' key={category.idCategory} variant={selectedCategory === category.strCategory ? 'contained' : 'outlined'} onClick={() => setSelectedCategory(category.strCategory)}>
+                    <Button sx={{backgroundColor:'#E84B7D' , color:'white'}} type='button' key={category.idCategory} variant={selectedCategory === category.strCategory ? 'contained' : 'outlined'} onClick={() => setSelectedCategory(category.strCategory)}>
                         {category.strCategory}
                     </Button>
                 ))}
