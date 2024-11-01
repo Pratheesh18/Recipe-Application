@@ -44,6 +44,7 @@ const Register = () => {
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
+    
 
     const handleClickShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
