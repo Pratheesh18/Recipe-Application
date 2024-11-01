@@ -29,6 +29,7 @@ const FavoriteMeals = () => {
   const handleFavoriteChange = (mealId) => {
     setFavoriteMeals((prevfavorites) => prevfavorites.filter((meal) => meal.recipeId !== mealId))
   };
+  
 
   return (
     <>
