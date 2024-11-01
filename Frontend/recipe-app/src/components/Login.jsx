@@ -9,7 +9,8 @@ import {
   Box,
   Container,
   Paper,
-  IconButton
+  IconButton,
+  CircularProgress
 } from "@mui/material";
 import { Visibility , VisibilityOff } from "@mui/icons-material";
 import api from "../api";
@@ -26,6 +27,7 @@ const loginFormValidation = Yup.object().shape({
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading,setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,6 +35,7 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(loginFormValidation) });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await api.post("/api/auth/login", {
         email: data.email,
@@ -44,6 +47,8 @@ const Login = () => {
     } catch (error) {
       console.error("Login error", error.response?.data);
       toast.error('Error ! Failed to Login',{position:'bottom-right'});
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -118,8 +123,10 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, backgroundColor: "#E84B7D" }}
+                disabled={loading}
+                startIcon={loading ? <CircularProgress size={20}  /> : null}
               >
-                SIGN IN
+                 {loading  ? "SIGNING IN.." : "SIGN IN"}
               </Button>
             </form>
             <Typography variant="body2" sx={{mt:2}}>

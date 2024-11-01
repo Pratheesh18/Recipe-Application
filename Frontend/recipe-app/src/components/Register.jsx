@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {TextField,Button,Typography,Box,Container, Paper , IconButton} from '@mui/material';
+import {TextField,Button,Typography,Box,Container, Paper , IconButton , CircularProgress} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -21,10 +21,12 @@ const formValidation = Yup.object().shape({
 const Register = () => {
     const [showPassword,setShowPassword] = useState(false);
     const [showConfirmPassword , setShowConfirmPassword] = useState(false);
+    const [loading,setLoading] = useState(false);
     const {register , handleSubmit , formState:{errors}} = useForm({resolver:yupResolver(formValidation)});
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
+        setLoading(true);
         try{
             const res = await api.post('/api/auth/register',{
                 firstName : data.firstName,
@@ -38,13 +40,15 @@ const Register = () => {
         }catch(error){
             console.error('Registration error',error);
             toast.error('Error in Registration',{position:'bottom-right'});
+        }finally{
+            setLoading(false)
         }
     };
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
-    
+
 
     const handleClickShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
@@ -151,8 +155,9 @@ const Register = () => {
                                 />
                             </Box>
                         </Box>
-                        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3 , backgroundColor:'#E84B7D' }}>
-                            Create Account
+                        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3 , backgroundColor:'#E84B7D' }} disabled={loading} startIcon={loading ? <CircularProgress size={20} /> : null}
+                         >
+                            {loading ? "CREATING.." : "CREATE AN ACCOUNT"}
                         </Button>
                     </form>
                     <Typography variant="body2" color="textSecondary" sx={{mt:2}}>
