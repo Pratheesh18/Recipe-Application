@@ -12,7 +12,6 @@ const MealDetailsPopup = ({open,close,mealId}) => {
     useEffect(() => {
         if(mealId && open){
             setLoading(true);
-         
             api.get(`/api/recipes/meals/details/${mealId}`,{withCredentials:true})
                  .then(response => {setMealDetails(response.data); setLoading(false)})
                  .catch(error => {
