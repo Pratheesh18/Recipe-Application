@@ -11,7 +11,7 @@ connectDatabase();
 
 const app = express();
 app.use(cors({
-    origin: '*', // Update this to match your frontend URL
+    origin: 'https://recipe-application-bric1era6-pratheeshs-projects-78c6ba61.vercel.app', // Update this to match your frontend URL
     credentials: true,               // Allows cookies and credentials to be sent
 }));
 app.use(express.json());
