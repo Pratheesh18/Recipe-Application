@@ -13,7 +13,7 @@ const MealDetailsPopup = ({open,close,mealId}) => {
         if(mealId && open){
             setLoading(true);
          
-            api.get(`/recipes/meals/details/${mealId}`,{withCredentials:true})
+            api.get(`/api/recipes/meals/details/${mealId}`,{withCredentials:true})
                  .then(response => {setMealDetails(response.data); setLoading(false)})
                  .catch(error => {
                     console.error('Error fetching meal details',error);

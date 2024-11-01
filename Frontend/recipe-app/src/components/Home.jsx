@@ -13,7 +13,7 @@ const Home = () => {
     const [loading,setLoading] = useState(false);
 
     useEffect(() => {
-        api.get('/recipes/categories')
+        api.get('/api/recipes/categories')
              .then(response => {
                 setCategories(response.data.categories);
                 if(response.data.categories.length > 0){
@@ -32,7 +32,7 @@ const Home = () => {
     const fetchMealsByCategory = async (category) => {
         setLoading(true);
         try {
-            const response = await api.get(`/recipes/meals/${category}`);
+            const response = await api.get(`/api/recipes/meals/${category}`);
             setMeals(response.data);
             setShowMeals(10); 
         } catch (error) {

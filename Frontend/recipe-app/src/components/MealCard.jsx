@@ -20,7 +20,7 @@ const MealCard = ({ meal, onFetchFavorites, isFavoritePage = false }) => {
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       try {
-        const response = await api.get("/recipes/favorites", {
+        const response = await api.get("/api/recipes/favorites", {
           withCredentials: true,
         });
         const isFav = response.data.some(
@@ -38,7 +38,7 @@ const MealCard = ({ meal, onFetchFavorites, isFavoritePage = false }) => {
   const handleUpdateFavorite = async () => {
     try {
       if (favorite || isFavoritePage) {
-        await api.delete(`/recipes/favorites/${meal.idMeal}`, {
+        await api.delete(`/api/recipes/favorites/${meal.idMeal}`, {
           withCredentials: true,
         });
         setFavorite(false);
@@ -48,7 +48,7 @@ const MealCard = ({ meal, onFetchFavorites, isFavoritePage = false }) => {
         });
       } else {
         await api.post(
-          "/recipes/favorites",
+          "/api/recipes/favorites",
           {
             recipeId: meal.idMeal,
             title: meal.strMeal,

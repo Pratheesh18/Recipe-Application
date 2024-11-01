@@ -26,7 +26,7 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         try{
-            const res = await api.post('/auth/register',{
+            const res = await api.post('/api/auth/register',{
                 firstName : data.firstName,
                 lastName : data.lastName,
                 email : data.email,

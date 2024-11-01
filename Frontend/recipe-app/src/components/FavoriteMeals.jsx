@@ -15,7 +15,7 @@ const FavoriteMeals = () => {
   const fetchFavorites = async () => {
     setLoading(true);
     try {
-      const response = await api.get("/recipes/favorites", {
+      const response = await api.get("/api/recipes/favorites", {
         withCredentials: true,
       });
       setFavoriteMeals(response.data);
