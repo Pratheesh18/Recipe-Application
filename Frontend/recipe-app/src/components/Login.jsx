@@ -13,7 +13,7 @@ import {
   CircularProgress
 } from "@mui/material";
 import { Visibility , VisibilityOff } from "@mui/icons-material";
-import api from "../api";
+import api , {setAccessToken} from "../api";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -41,9 +41,11 @@ const Login = () => {
         email: data.email,
         password: data.password,
       });
-      localStorage.setItem("token", response.data.token);
-      toast.success('Login Successful',{position:'bottom-right'});
-      navigate("/home");
+      const  {accessToken,refreshToken} = response.data;
+      setAccessToken(accessToken);
+      localStorage.setItem("refreshToken",refreshToken);
+      toast.success("Login Successful",{position:"bottom-right"});
+      navigate('/home');
     } catch (error) {
       console.error("Login error", error.response?.data);
       toast.error('Error ! Failed to Login',{position:'bottom-right'});
