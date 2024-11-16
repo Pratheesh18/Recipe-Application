@@ -6,7 +6,7 @@ const generateToken = (id) => {
 };
 
 const generateRefreshToken = (id) => {
-    return jwt.sign({id},process.env.REFRESH_SECRET,{expiresIn:'30d'});
+    return jwt.sign({id},process.env.REFRSH_SECRET,{expiresIn:'30d'});
 }
 
 exports.register = async(req,res) => {
@@ -70,7 +70,7 @@ exports.refreshToken = (req,res) => {
     }
 
     try{
-        const decoded = jwt.verify(refreshToken,process.env.REFRESH_SECRET);
+        const decoded = jwt.verify(refreshToken,process.env.REFRSH_SECRET);
         const newAccessToken = generateToken(decoded.id);
         res.json({accessToken:newAccessToken});
     }catch(error){
