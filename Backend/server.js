@@ -11,8 +11,8 @@ connectDatabase();
 
 const app = express();
 app.use(cors({
-    origin:['https://recipe-application-client.vercel.app','http://localhost:5173'], // Update this to match your frontend URL
-    credentials: true,               // Allows cookies and credentials to be sent
+    origin:['https://recipe-application-client.vercel.app','http://localhost:5173'], 
+    credentials: true,               
 }));
 app.use(express.json());
 
