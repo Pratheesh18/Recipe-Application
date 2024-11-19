@@ -42,7 +42,7 @@ const MealCard = ({ meal, onFetchFavorites, isFavoritePage = false }) => {
           withCredentials: true,
         });
         setFavorite(false);
-        onFetchFavorites(meal.idMeal); // Update favorites immediately on success
+        onFetchFavorites(meal.idMeal); 
         toast.success("Meal removed successfully", {
           position: "bottom-right",
         });
