@@ -109,7 +109,6 @@ Once both servers are running, you can visit the frontend URL in your browser to
     ├── frontend                 # Frontend React application
     │   ├── src
     │   │   ├── components       # Reusable React components
-    │   │   ├── pages            # Pages for different routes
     │   │   ├── api              # Axios instance and interceptors
     │   │   └── App.js           # Main app component
     └── README.md
