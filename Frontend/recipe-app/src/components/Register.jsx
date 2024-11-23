@@ -38,7 +38,6 @@ const Register = () => {
             navigate('/');
             toast.success('Registration Successful',{position:'bottom-right'});
         }catch(error){
-            console.error('Registration error',error);
             toast.error('Error in Registration',{position:'bottom-right'});
         }finally{
             setLoading(false)
