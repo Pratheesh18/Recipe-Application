@@ -7,11 +7,11 @@ import { Dialog,DialogTitle,DialogContent,DialogActions,Button,Typography } from
 const ConfirmationDialog = ({open,onClose,onConfirm,title="Confirm Action",message="Are you sure want to proceed ?",confirmText="Yes",cancelText="No",confirmColor="error"}) => {
     return(
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>  {title} </DialogTitle>
+            <DialogTitle sx={{display:'flex',justifyContent:'center'}}>  {title} </DialogTitle>
             <DialogContent>
                 <Typography> {message} </Typography>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{display:'flex',justifyContent:'space-between'}} >
                 <Button onClick={onClose} color="primary">
                     {cancelText}
                 </Button>
